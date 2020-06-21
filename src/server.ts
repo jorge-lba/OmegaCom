@@ -1,11 +1,11 @@
-import express, { request, response } from 'express'
+import express from 'express'
 import '@controllers/ItemsController'
 
 const app = express()
 
 app.get('/', (request, response) => {
   return response.status(200).json({
-      message:'Iniciando projeto OmegaCom !'
+    message: 'Iniciando projeto OmegaCom !'
   })
 })
 

@@ -1,7 +1,8 @@
-import { Item } from "@models/Item";
+import { Item } from '@models/Item'
 
 export class ItemsController {
-  test(){
+  test () {
     const item = new Item()
+    return item
   }
 }
