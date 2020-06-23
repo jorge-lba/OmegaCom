@@ -20,7 +20,7 @@ export type TypeItem = {
 }
 
 const ItemSchema = new mongoose.Schema({
-  id: { type: Number, default: 0 },
+  _id: { type: Number, default: 1 },
   input: {
     unitaryValue: Number,
     amount: Number,
