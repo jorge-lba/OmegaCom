@@ -10,6 +10,15 @@ export default {
       return response.status(400).json(error)
     }
   },
+  async show (request: Request, response: Response) {
+    try {
+      const { id } = request.params
+      const item = await Item.findById(id)
+      return response.status(200).json({ message: 'ok', item })
+    } catch (error) {
+      return response.status(400).json(error)
+    }
+  },
   async create (request: Request, response: Response) {
     try {
       let lastIdItemRegistered:number = 0
