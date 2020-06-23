@@ -1,5 +1,24 @@
 import mongoose from '../database/index'
 
+export type TypeItem = {
+  id:number
+  input: {
+    unitaryValue: number,
+    amount: number,
+    date: Date,
+    provider: {
+      name: string,
+      id: string
+    }
+  },
+  output: {
+    amount: number,
+    date: Date
+  },
+  total: number,
+  model: string
+}
+
 const ItemSchema = new mongoose.Schema({
   id: { type: Number, default: 0 },
   input: {
