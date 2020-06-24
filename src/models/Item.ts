@@ -19,7 +19,8 @@ export type TypeItem = {
     amount: number,
     date?: Date
   }],
-  model: string
+  model: string,
+  state: boolean
 }
 
 const ItemSchema = new mongoose.Schema({
@@ -44,7 +45,8 @@ const ItemSchema = new mongoose.Schema({
     amount: Number,
     date: { type: Date, default: new Date() }
   }, { _id: false }],
-  model: String
+  model: String,
+  state: { type: Boolean, default: true }
 }, { _id: false })
 
 const Item = mongoose.model('Item', ItemSchema)

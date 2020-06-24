@@ -95,5 +95,19 @@ export default {
     } catch (error) {
       return response.status(400).json(error)
     }
+  },
+
+  async delete (request: Request, response: Response) {
+    try {
+      const { id } = request.params
+
+      const item = await Item.findByIdAndUpdate(id, { state: false }, { new: true })
+
+      if (item == null) return response.status(400).json({ error: 'O item não foi encontrado' })
+
+      return response.status(200).json({ message: 'OK', item })
+    } catch (error) {
+      return response.status(400).json(error)
+    }
   }
 }
