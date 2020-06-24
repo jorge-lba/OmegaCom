@@ -1,7 +1,8 @@
 import { Request, Response } from 'express'
-import Item from '@models/Item'
+import Item, { TypeItem } from '@models/Item'
 
 export default {
+
   async index (request: Request, response: Response) {
     try {
       const items = await Item.find()
@@ -10,6 +11,7 @@ export default {
       return response.status(400).json(error)
     }
   },
+
   async show (request: Request, response: Response) {
     try {
       const { id } = request.params
@@ -19,6 +21,7 @@ export default {
       return response.status(400).json(error)
     }
   },
+
   async create (request: Request, response: Response) {
     try {
       let lastIdItemRegistered:number = 0
@@ -46,10 +49,49 @@ export default {
             id: providerId
           }
         },
-        total: amount
+        total: { amount }
       })
 
       return response.status(201).json({ message: 'OK', item })
+    } catch (error) {
+      return response.status(400).json(error)
+    }
+  },
+
+  async update (request: Request, response: Response) {
+    try {
+      const { id } = request.params
+      const { input, output } = request.body
+      const item: TypeItem = (await Item.findById(id)).toObject()
+
+      if (input.amount) {
+        const { amount, unitaryValue, provider } = input
+
+        item.input.push({
+          amount,
+          unitaryValue,
+          provider
+        })
+      }
+
+      if (output.amount) {
+        const { amount } = output
+
+        item.output.push({
+          amount
+        })
+      }
+
+      const inputTotal = item.input.reduce((previus, current) => previus + current.amount, 0)
+      const outputTotal = item.output.reduce((previus, current) => previus + current.amount, 0)
+
+      const total = inputTotal - outputTotal
+
+      item.total.push({ amount: total })
+
+      const itemUpdate = await Item.findByIdAndUpdate(id, item, { new: true })
+
+      return response.status(200).json({ message: 'ok', item: itemUpdate })
     } catch (error) {
       return response.status(400).json(error)
     }

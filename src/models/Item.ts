@@ -2,26 +2,30 @@ import mongoose from '../database/index'
 
 export type TypeItem = {
   id:number
-  input: {
+  input: [{
     unitaryValue: number,
     amount: number,
-    date: Date,
+    date?: Date,
     provider: {
       name: string,
       id: string
     }
-  },
-  output: {
+  }],
+  output: [{
     amount: number,
-    date: Date
-  },
-  total: number,
+    date?: Date
+  }],
+  total: [{
+    amount: number,
+    date?: Date
+  }],
   model: string
 }
 
 const ItemSchema = new mongoose.Schema({
   _id: { type: Number, default: 1 },
-  input: {
+  input: [{
+    _id: false,
     unitaryValue: Number,
     amount: Number,
     date: { type: Date, default: new Date() },
@@ -29,12 +33,17 @@ const ItemSchema = new mongoose.Schema({
       name: String,
       id: String
     }
-  },
-  output: {
+  }],
+  output: [{
+    _id: false,
     amount: Number,
     date: { type: Date, default: new Date() }
-  },
-  total: Number,
+  }],
+  total: [{
+    _id: false,
+    amount: Number,
+    date: { type: Date, default: new Date() }
+  }, { _id: false }],
   model: String
 }, { _id: false })
 
